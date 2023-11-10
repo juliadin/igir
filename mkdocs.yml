@@ -84,6 +84,7 @@ nav:
       - File Outputs:
           - output/writing-archives.md
           - output/tokens.md
+          - output/rom_path_device.md
           - output/reporting.md
           - output/cleaning.md
       - Advanced:

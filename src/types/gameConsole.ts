@@ -662,6 +662,31 @@ export default class GameConsole {
       .find((console) => console.getDatRegex().test(consoleName));
   }
 
+  static getMarkdownTable(order: string[]): string {
+    const lines: string[] = [];
+    const header = ['Name', 'Extensions', ...order.map((x) => `\`{${x}}\``)];
+    lines.push(`| ${header.join(' | ')} |`);
+    const separator = [':----', ':---:', ...order.map(() => ':----:')];
+    lines.push(`| ${separator.join(' | ')} |`);
+
+    for (const console of this.CONSOLES) {
+      const line: string[] = [];
+      line.push(console.getDatRegex().toString());
+      const extensions = console.getExtensions().map((x) => `\`${x}\``);
+      line.push(extensions.join(' <br /> '));
+      for (const token of order) {
+        const rompath = console.outputTokens[token as keyof(OutputTokens)];
+        if (rompath) {
+          line.push(rompath);
+        } else {
+          line.push('-');
+        }
+      }
+      lines.push(`| ${line.join(' | ')} |`);
+    }
+    return lines.join('\n');
+  }
+
   private getDatRegex(): RegExp {
     return this.datRegex;
   }
